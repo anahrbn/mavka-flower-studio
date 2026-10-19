@@ -23,10 +23,10 @@ Open http://localhost:3000.
 
 ## Scripts
 
-| Command                | Description                   |
-| ---------------------- | ----------------------------- |
-| `npm run dev`          | Start the development server  |
-| `npm run build`        | Build for production          |
-| `npm run lint`         | Run ESLint (incl. jsx-a11y)   |
-| `npm run format`       | Format code with Prettier     |
-| `npm run format:check` | Check formatting              |
+| Command                | Description                  |
+| ---------------------- | ---------------------------- |
+| `npm run dev`          | Start the development server |
+| `npm run build`        | Build for production         |
+| `npm run lint`         | Run ESLint (incl. jsx-a11y)  |
+| `npm run format`       | Format code with Prettier    |
+| `npm run format:check` | Check formatting             |
