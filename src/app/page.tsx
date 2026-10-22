@@ -1,4 +1,5 @@
 import { Hero } from '@/components/home/hero';
+import { Benefits } from '@/components/home/benefits';
 import { ProductCard } from '@/components/product/product-card';
 
 const bestSellers = [
@@ -48,6 +49,7 @@ export default function HomePage() {
   return (
     <>
       <Hero />
+      <Benefits />
 
       <section
         aria-labelledby="best-title"
