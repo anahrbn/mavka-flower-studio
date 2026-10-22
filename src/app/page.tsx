@@ -1,3 +1,4 @@
+import { Hero } from '@/components/home/hero';
 import { ProductCard } from '@/components/product/product-card';
 
 const bestSellers = [
@@ -45,18 +46,28 @@ const bestSellers = [
 
 export default function HomePage() {
   return (
-    <section className="mx-auto max-w-6xl px-6 py-20">
-      <h1 className="font-heading text-deep-olive text-6xl">
-        Flowers with a <em>story</em>
-      </h1>
+    <>
+      <Hero />
 
-      <ul className="mt-16 grid gap-7 sm:grid-cols-2 lg:grid-cols-4">
-        {bestSellers.map((product) => (
-          <li key={product.slug}>
-            <ProductCard {...product} />
-          </li>
-        ))}
-      </ul>
-    </section>
+      <section
+        aria-labelledby="best-title"
+        className="mx-auto max-w-6xl px-6 py-20"
+      >
+        <h2
+          id="best-title"
+          className="font-heading text-deep-olive text-4xl md:text-5xl"
+        >
+          Find your bouquet
+        </h2>
+
+        <ul className="mt-10 grid gap-7 sm:grid-cols-2 lg:grid-cols-4">
+          {bestSellers.map((product) => (
+            <li key={product.slug}>
+              <ProductCard {...product} />
+            </li>
+          ))}
+        </ul>
+      </section>
+    </>
   );
 }
