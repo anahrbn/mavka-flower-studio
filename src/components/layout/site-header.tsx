@@ -4,7 +4,6 @@ import { Logo } from './logo';
 
 const navLinks = [
   { href: '/shop', label: 'Shop' },
-  { href: '/occasions', label: 'Occasions' },
   { href: '/#florist', label: 'AI florist' },
   { href: '/#story', label: 'Our story' },
 ];
