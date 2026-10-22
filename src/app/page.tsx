@@ -2,6 +2,7 @@ import { Hero } from '@/components/home/hero';
 import { Benefits } from '@/components/home/benefits';
 import { ProductCard } from '@/components/product/product-card';
 import { AiFlorist } from '@/components/home/ai-florist';
+import { OurStory } from '@/components/home/our-story';
 
 const bestSellers = [
   {
@@ -73,6 +74,7 @@ export default function HomePage() {
       </section>
 
       <AiFlorist />
+      <OurStory />
     </>
   );
 }
