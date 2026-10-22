@@ -1,6 +1,7 @@
 import { Hero } from '@/components/home/hero';
 import { Benefits } from '@/components/home/benefits';
 import { ProductCard } from '@/components/product/product-card';
+import { AiFlorist } from '@/components/home/ai-florist';
 
 const bestSellers = [
   {
@@ -70,6 +71,8 @@ export default function HomePage() {
           ))}
         </ul>
       </section>
+
+      <AiFlorist />
     </>
   );
 }
