@@ -43,8 +43,37 @@ export const typeDefs = /* GraphQL */ `
     variants: [ProductVariant!]!
   }
 
+  input ProductFilter {
+    occasion: Occasion
+    palette: Palette
+    maxPriceCents: Int
+  }
+
+  enum ProductSort {
+    FEATURED
+    NEWEST
+    PRICE_ASC
+    PRICE_DESC
+  }
+
+  type PageInfo {
+    endCursor: String
+    hasNextPage: Boolean!
+  }
+
+  type ProductConnection {
+    nodes: [Product!]!
+    totalCount: Int!
+    pageInfo: PageInfo!
+  }
+
   type Query {
-    products: [Product!]!
+    products(
+      filter: ProductFilter
+      sort: ProductSort = FEATURED
+      first: Int = 12
+      after: String
+    ): ProductConnection!
     product(slug: String!): Product
   }
 `;
