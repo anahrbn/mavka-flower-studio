@@ -40,6 +40,7 @@ model Product {
   palette     Palette
   occasions   Occasion[]
   featured    Boolean          @default(false)
+  fromPriceCents Int              @default(0)
   variants    ProductVariant[]
   createdAt   DateTime         @default(now())
   updatedAt   DateTime         @updatedAt

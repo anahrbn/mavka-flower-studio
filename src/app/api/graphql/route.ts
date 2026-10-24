@@ -9,6 +9,7 @@ interface NextContext {
 const { handleRequest } = createYoga<NextContext>({
   schema: createSchema({ typeDefs, resolvers }),
   graphqlEndpoint: '/api/graphql',
+  graphiql: process.env.NODE_ENV !== 'production',
   fetchAPI: { Response },
 });
 

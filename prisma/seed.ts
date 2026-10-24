@@ -19,10 +19,12 @@ function roundToFiveDollars(cents: number) {
 
 async function main() {
   for (const { basePriceCents, baseStems, ...product } of bouquets) {
+    const data = { ...product, fromPriceCents: basePriceCents };
+
     const { id: productId } = await prisma.product.upsert({
       where: { slug: product.slug },
-      update: product,
-      create: product,
+      update: data,
+      create: data,
     });
 
     for (const { size, stemFactor, priceFactor } of sizes) {
