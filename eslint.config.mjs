@@ -11,7 +11,14 @@ const eslintConfig = defineConfig([
     rules: jsxA11y.flatConfigs.strict.rules,
   },
   prettier,
-  globalIgnores(['.next/**', 'out/**', 'build/**', 'next-env.d.ts']),
+  globalIgnores([
+    '.next/**',
+    'out/**',
+    'build/**',
+    'next-env.d.ts',
+    'src/graphql/generated/**',
+    'src/generated/**',
+  ]),
 ]);
 
 export default eslintConfig;

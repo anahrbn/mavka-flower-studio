@@ -1,21 +1,11 @@
 import type { Prisma } from '@/generated/prisma/client';
-import type { Occasion, Palette } from '@/generated/prisma/enums';
 import { db } from '@/lib/db';
+import type {
+  ProductFilter,
+  ProductSort,
+  Resolvers,
+} from './generated/resolvers-types';
 
-type ProductSort = 'FEATURED' | 'NEWEST' | 'PRICE_ASC' | 'PRICE_DESC';
-
-type ProductFilter = {
-  occasion?: Occasion | null;
-  palette?: Palette | null;
-  maxPriceCents?: number | null;
-};
-
-type ProductsArgs = {
-  filter?: ProductFilter | null;
-  sort: ProductSort;
-  first: number;
-  after?: string | null;
-};
 
 const MAX_PAGE_SIZE = 48;
 
@@ -45,9 +35,9 @@ function buildWhere(filter?: ProductFilter | null) {
   return where;
 }
 
-export const resolvers = {
+export const resolvers: Resolvers = {
   Query: {
-    products: async (_parent: unknown, args: ProductsArgs) => {
+    products: async (_parent, args) => {
       const where = buildWhere(args.filter);
       const pageSize = Math.min(Math.max(args.first, 1), MAX_PAGE_SIZE);
 
