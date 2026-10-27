@@ -1,3 +1,4 @@
+import { cacheLife, cacheTag } from 'next/cache';
 import type { Prisma } from '@/generated/prisma/client';
 import type {
   ProductFilter,
@@ -46,6 +47,10 @@ export async function getProducts({
   first = 12,
   after,
 }: GetProductsArgs = {}) {
+  'use cache';
+  cacheLife('hours');
+  cacheTag('products');
+
   const where = buildWhere(filter);
   const pageSize = Math.min(Math.max(first, 1), MAX_PAGE_SIZE);
 
@@ -70,9 +75,10 @@ export async function getProducts({
   };
 }
 
-export function getProductBySlug(slug: string) {
-  return db.product.findUnique({
-    where: { slug },
-    include: variantsByPrice,
-  });
+export async function getProductBySlug(slug: string) {
+  'use cache';
+  cacheLife('hours');
+  cacheTag('products');
+
+  return db.product.findUnique({ where: { slug }, include: variantsByPrice });
 }
