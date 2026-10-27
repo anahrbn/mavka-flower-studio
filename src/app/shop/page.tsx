@@ -23,7 +23,7 @@ export default async function ShopPage() {
         Shop all bouquets
       </h1>
 
-      <p className="mt-2">{totalCount} bouquets</p>
+      <h2 className="mt-2">{totalCount} bouquets</h2>
 
       <ul className="mt-10 grid gap-7 sm:grid-cols-2 lg:grid-cols-4">
         {nodes.map((product, index) => (
