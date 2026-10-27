@@ -13,6 +13,7 @@ type ProductCardProps = {
   name: string;
   slug: string;
   priceCents: number;
+  priority?: boolean;
   image: { src: string; alt: string };
   tone: keyof typeof toneClasses;
 };
@@ -23,11 +24,13 @@ export function ProductCard({
   priceCents,
   image,
   tone,
+  priority = false,
 }: ProductCardProps) {
   return (
     <article className="group relative flex h-full flex-col">
       <div className="bg-sage-mist relative aspect-[4/5] overflow-hidden rounded-t-full">
         <Image
+          loading={priority ? 'eager' : 'lazy'}
           src={image.src}
           alt={image.alt}
           fill
