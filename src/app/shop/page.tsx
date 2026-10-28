@@ -46,7 +46,9 @@ async function ProductResults({ searchParams }: ShopPageProps) {
         palette={filter.palette}
         sort={sort}
       />
-      <h2 className="mt-2">{totalCount} bouquets</h2>
+      <h2 className="mt-2" aria-live="polite" aria-atomic="true">
+        {totalCount} {totalCount === 1 ? 'bouquet' : 'bouquets'}
+      </h2>
 
       {nodes.length === 0 ? (
         <p className="mt-10">No bouquets match these filters.</p>
