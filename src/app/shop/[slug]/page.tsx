@@ -3,6 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getProductBySlug, getProductSlugs } from '@/lib/products';
+import { ProductOptions } from '@/components/product/product-options';
 
 type ProductPageProps = {
   params: Promise<{ slug: string }>;
@@ -65,6 +66,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
             {product.name}
           </h1>
           <p className="mt-6 max-w-prose">{product.description}</p>
+          <ProductOptions variants={product.variants} />
         </div>
       </div>
     </article>
