@@ -4,7 +4,7 @@ import type {
   ProductSort,
 } from '@/graphql/generated/resolvers-types';
 
-type SearchParams = Record<string, string | string[] | undefined>;
+export type SearchParams = Record<string, string | string[] | undefined>;
 
 const sorts: ProductSort[] = ['FEATURED', 'NEWEST', 'PRICE_ASC', 'PRICE_DESC'];
 
