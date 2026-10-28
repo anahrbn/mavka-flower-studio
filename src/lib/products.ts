@@ -82,3 +82,11 @@ export async function getProductBySlug(slug: string) {
 
   return db.product.findUnique({ where: { slug }, include: variantsByPrice });
 }
+
+export async function getProductSlugs() {
+  'use cache';
+  cacheLife('hours');
+  cacheTag('products');
+
+  return db.product.findMany({ select: { slug: true } });
+}
