@@ -3,6 +3,7 @@ import { Suspense } from 'react';
 import { ProductCard } from '@/components/product/product-card';
 import { getProducts } from '@/lib/products';
 import { parseShopParams, type SearchParams } from '@/lib/shop-params';
+import { ShopFilters } from '@/components/shop/shop-filters';
 
 export const metadata: Metadata = {
   title: 'Shop',
@@ -38,28 +39,33 @@ async function ProductResults({ searchParams }: ShopPageProps) {
   const { filter, sort } = parseShopParams(await searchParams);
   const { nodes, totalCount } = await getProducts({ filter, sort, first: 12 });
 
-  if (nodes.length === 0) {
-    return <p className="mt-10">No bouquets match these filters.</p>;
-  }
-
   return (
     <>
+      <ShopFilters
+        occasion={filter.occasion}
+        palette={filter.palette}
+        sort={sort}
+      />
       <h2 className="mt-2">{totalCount} bouquets</h2>
 
-      <ul className="mt-10 grid gap-7 sm:grid-cols-2 lg:grid-cols-4">
-        {nodes.map((product, index) => (
-          <li key={product.slug}>
-            <ProductCard
-              name={product.name}
-              slug={product.slug}
-              priceCents={product.fromPriceCents}
-              image={{ src: product.imageUrl, alt: product.imageAlt }}
-              tone={tones[index % 3] ?? 'peach'}
-              priority={index < 4}
-            />
-          </li>
-        ))}
-      </ul>
+      {nodes.length === 0 ? (
+        <p className="mt-10">No bouquets match these filters.</p>
+      ) : (
+        <ul className="mt-10 grid gap-7 sm:grid-cols-2 lg:grid-cols-4">
+          {nodes.map((product, index) => (
+            <li key={product.slug}>
+              <ProductCard
+                name={product.name}
+                slug={product.slug}
+                priceCents={product.fromPriceCents}
+                image={{ src: product.imageUrl, alt: product.imageAlt }}
+                tone={tones[index % 3] ?? 'peach'}
+                priority={index < 4}
+              />
+            </li>
+          ))}
+        </ul>
+      )}
     </>
   );
 }
