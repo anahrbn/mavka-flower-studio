@@ -1,9 +1,9 @@
 import type { Metadata } from 'next';
 import { Suspense } from 'react';
-import { getProducts } from '@/lib/products';
-import { parseShopParams, type SearchParams } from '@/lib/shop-params';
 import { ShopFilters } from '@/components/shop/shop-filters';
 import { ProductGrid } from '@/components/shop/product-grid';
+import { getProducts } from '@/lib/products';
+import { parseShopParams, type SearchParams } from '@/lib/shop-params';
 
 export const metadata: Metadata = {
   title: 'Shop',
@@ -35,7 +35,11 @@ export default function ShopPage({ searchParams }: ShopPageProps) {
 
 async function ProductResults({ searchParams }: ShopPageProps) {
   const { filter, sort } = parseShopParams(await searchParams);
-  const { nodes, totalCount } = await getProducts({ filter, sort, first: 12 });
+  const { nodes, totalCount, pageInfo } = await getProducts({
+    filter,
+    sort,
+    first: 12,
+  });
 
   return (
     <>
@@ -44,6 +48,7 @@ async function ProductResults({ searchParams }: ShopPageProps) {
         palette={filter.palette}
         sort={sort}
       />
+
       <h2 className="mt-2" aria-live="polite" aria-atomic="true">
         {totalCount} {totalCount === 1 ? 'bouquet' : 'bouquets'}
       </h2>
@@ -51,7 +56,13 @@ async function ProductResults({ searchParams }: ShopPageProps) {
       {nodes.length === 0 ? (
         <p className="mt-10">No bouquets match these filters.</p>
       ) : (
-        <ProductGrid products={nodes} />
+        <ProductGrid
+          key={`${filter.occasion}-${filter.palette}-${sort}`}
+          initialProducts={nodes}
+          initialPageInfo={pageInfo}
+          filter={filter}
+          sort={sort}
+        />
       )}
     </>
   );
