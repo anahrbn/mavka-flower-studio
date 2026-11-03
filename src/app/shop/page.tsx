@@ -4,6 +4,7 @@ import { ShopFilters } from '@/components/shop/shop-filters';
 import { ProductGrid } from '@/components/shop/product-grid';
 import { getProducts } from '@/lib/products';
 import { parseShopParams, type SearchParams } from '@/lib/shop-params';
+import { ProductGridSkeleton } from '@/components/shop/product-grid-skeleton';
 
 export const metadata: Metadata = {
   title: 'Shop',
@@ -26,7 +27,7 @@ export default function ShopPage({ searchParams }: ShopPageProps) {
         Shop all bouquets
       </h1>
 
-      <Suspense fallback={<p className="mt-2">Loading bouquets…</p>}>
+      <Suspense fallback={<ProductGridSkeleton />}>
         <ProductResults searchParams={searchParams} />
       </Suspense>
     </section>
