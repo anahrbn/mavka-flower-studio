@@ -8,6 +8,7 @@ import { ProductGridSkeleton } from '@/components/shop/product-grid-skeleton';
 
 export const metadata: Metadata = {
   title: 'Shop',
+  alternates: { canonical: '/shop' },
 };
 
 type ShopPageProps = {

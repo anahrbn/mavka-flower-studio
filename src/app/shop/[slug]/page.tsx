@@ -2,9 +2,10 @@ import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { getProductBySlug, getProductSlugs } from '@/lib/products';
 import { ProductOptions } from '@/components/product/product-options';
 import { ProductDetails } from '@/components/product/product-details';
+import { getProductBySlug, getProductSlugs } from '@/lib/products';
+import { siteUrl } from '@/lib/site';
 
 type ProductPageProps = {
   params: Promise<{ slug: string }>;
@@ -20,18 +21,57 @@ export async function generateMetadata({
   const { slug } = await params;
   const product = await getProductBySlug(slug);
 
-  return product
-    ? { title: product.name, description: product.description }
-    : { title: 'Page not found' };
+  if (!product) return { title: 'Page not found' };
+
+  const url = `/shop/${product.slug}`;
+
+  return {
+    title: product.name,
+    description: product.description,
+    alternates: { canonical: url },
+    openGraph: {
+      siteName: 'Mavka Flower Studio',
+      type: 'website',
+      url,
+      title: product.name,
+      description: product.description,
+      images: [{ url: product.imageUrl, alt: product.imageAlt }],
+    },
+  };
 }
 
 export default async function ProductPage({ params }: ProductPageProps) {
   const { slug } = await params;
   const product = await getProductBySlug(slug);
+
   if (!product) notFound();
+
+  const prices = product.variants.map((variant) => variant.priceCents / 100);
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: product.name,
+    description: product.description,
+    image: new URL(product.imageUrl, siteUrl).toString(),
+    offers: {
+      '@type': 'AggregateOffer',
+      priceCurrency: 'USD',
+      lowPrice: Math.min(...prices),
+      highPrice: Math.max(...prices),
+      offerCount: prices.length,
+      availability: 'https://schema.org/InStock',
+    },
+  };
 
   return (
     <article className="mx-auto max-w-6xl px-6 py-12">
+      <script
+        type="application/ld+json"
+        // Escape "<" so product text can never close the script tag.
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c'),
+        }}
+      />
       <nav aria-label="Breadcrumb">
         <ol className="flex flex-wrap gap-2 text-sm">
           <li>
