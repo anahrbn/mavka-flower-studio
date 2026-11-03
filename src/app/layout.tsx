@@ -3,6 +3,7 @@ import { Fraunces, Jost } from 'next/font/google';
 import './globals.css';
 import { SiteFooter } from '@/components/layout/site-footer';
 import { SiteHeader } from '@/components/layout/site-header';
+import { siteUrl } from '@/lib/site';
 
 const fraunces = Fraunces({
   variable: '--font-fraunces',
@@ -16,6 +17,12 @@ const jost = Jost({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
+  openGraph: {
+    siteName: 'Mavka Flower Studio',
+    type: 'website',
+    locale: 'en_US',
+  },
   title: {
     default: 'Mavka Flower Studio',
     template: '%s | Mavka Flower Studio',
