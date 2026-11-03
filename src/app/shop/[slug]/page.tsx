@@ -22,7 +22,7 @@ export async function generateMetadata({
 
   return product
     ? { title: product.name, description: product.description }
-    : {};
+    : { title: 'Page not found' };
 }
 
 export default async function ProductPage({ params }: ProductPageProps) {
