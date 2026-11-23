@@ -41,7 +41,7 @@ async function CartLinkWithCount() {
 
 export function SiteHeader() {
   return (
-    <header className="border-border border-b">
+    <header className="border-border bg-background border-b md:sticky md:top-0 md:z-40">
       <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 px-6 py-4">
         <Logo />
 

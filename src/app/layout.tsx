@@ -35,7 +35,7 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
   return (
     <html
       lang="en"
-      className={`${fraunces.variable} ${jost.variable} h-full antialiased`}
+      className={`${fraunces.variable} ${jost.variable} h-full antialiased md:scroll-pt-24`}
     >
       <body className="flex min-h-full flex-col">
         <a
