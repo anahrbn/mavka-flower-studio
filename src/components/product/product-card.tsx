@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { ShoppingCart } from 'lucide-react';
+import { AddToCartButton } from '@/components/product/add-to-cart-button';
 import { formatPrice } from '@/lib/format';
 
 const toneClasses = {
@@ -13,9 +13,10 @@ type ProductCardProps = {
   name: string;
   slug: string;
   priceCents: number;
-  priority?: boolean;
   image: { src: string; alt: string };
   tone: keyof typeof toneClasses;
+  variantId?: string;
+  priority?: boolean;
 };
 
 export function ProductCard({
@@ -24,6 +25,7 @@ export function ProductCard({
   priceCents,
   image,
   tone,
+  variantId,
   priority = false,
 }: ProductCardProps) {
   return (
@@ -54,17 +56,9 @@ export function ProductCard({
           <p className="text-deep-olive">{formatPrice(priceCents)}</p>
         </div>
 
-        <button
-          type="button"
-          aria-label={`Add ${name} to cart`}
-          className="border-deep-olive text-deep-olive hover:bg-deep-olive hover:text-cream relative z-10 flex h-11 w-15 shrink-0 items-center justify-center rounded-sm border"
-        >
-          <ShoppingCart
-            aria-hidden="true"
-            className="size-6"
-            strokeWidth={1.5}
-          />
-        </button>
+        {variantId && (
+          <AddToCartButton variantId={variantId} productName={name} />
+        )}
       </div>
     </article>
   );

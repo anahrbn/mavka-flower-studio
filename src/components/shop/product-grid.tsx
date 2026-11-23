@@ -24,6 +24,16 @@ const MORE_PRODUCTS_QUERY = /* GraphQL */ `
         imageUrl
         imageAlt
       }
+      nodes {
+        slug
+        name
+        fromPriceCents
+        imageUrl
+        imageAlt
+        variants {
+          id
+        }
+      }
       pageInfo {
         hasNextPage
         endCursor
@@ -38,6 +48,7 @@ export type ProductSummary = {
   fromPriceCents: number;
   imageUrl: string;
   imageAlt: string;
+  variants: { id: string }[];
 };
 
 type PageInfo = {
@@ -112,6 +123,7 @@ export function ProductGrid({
               priceCents={product.fromPriceCents}
               image={{ src: product.imageUrl, alt: product.imageAlt }}
               tone={tones[index % 3] ?? 'peach'}
+              variantId={product.variants[0]?.id}
               priority={index < 4}
             />
           </li>

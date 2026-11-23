@@ -1,53 +1,15 @@
-import { Hero } from '@/components/home/hero';
-import { Benefits } from '@/components/home/benefits';
-import { ProductCard } from '@/components/product/product-card';
 import { AiFlorist } from '@/components/home/ai-florist';
+import { Benefits } from '@/components/home/benefits';
+import { Hero } from '@/components/home/hero';
 import { OurStory } from '@/components/home/our-story';
+import { ProductCard } from '@/components/product/product-card';
+import { getProducts } from '@/lib/products';
 
-const bestSellers = [
-  {
-    name: 'Cloud Garden',
-    slug: 'cloud-garden',
-    priceCents: 8500,
-    tone: 'peach',
-    image: {
-      src: '/images/bouquets/bouquet-hydrangea-trio-peach-wrap.webp',
-      alt: 'Pink, blue and white hydrangeas in peach wrapping',
-    },
-  },
-  {
-    name: 'Blush Morning',
-    slug: 'blush-morning',
-    priceCents: 7200,
-    tone: 'rose',
-    image: {
-      src: '/images/bouquets/bouquet-peach-roses-pink-wrap.webp',
-      alt: 'Peach roses with eucalyptus in blush pink wrapping',
-    },
-  },
-  {
-    name: 'Quiet Grace',
-    slug: 'quiet-grace',
-    priceCents: 6500,
-    tone: 'lavender',
-    image: {
-      src: '/images/bouquets/bouquet-white-peony-kraft.webp',
-      alt: 'White peonies wrapped in kraft paper',
-    },
-  },
-  {
-    name: 'Peony Hour',
-    slug: 'peony-hour',
-    priceCents: 9000,
-    tone: 'peach',
-    image: {
-      src: '/images/bouquets/bouquet-pink-peonies.webp',
-      alt: 'A bunch of bright pink peonies',
-    },
-  },
-] as const;
+const tones = ['peach', 'rose', 'lavender'] as const;
 
-export default function HomePage() {
+export default async function HomePage() {
+  const { nodes: featured } = await getProducts({ first: 4 });
+
   return (
     <>
       <Hero />
@@ -65,9 +27,16 @@ export default function HomePage() {
         </h2>
 
         <ul className="mt-10 grid gap-7 sm:grid-cols-2 lg:grid-cols-4">
-          {bestSellers.map((product) => (
+          {featured.map((product, index) => (
             <li key={product.slug}>
-              <ProductCard {...product} />
+              <ProductCard
+                name={product.name}
+                slug={product.slug}
+                priceCents={product.fromPriceCents}
+                image={{ src: product.imageUrl, alt: product.imageAlt }}
+                tone={tones[index % 3] ?? 'peach'}
+                variantId={product.variants[0]?.id}
+              />
             </li>
           ))}
         </ul>

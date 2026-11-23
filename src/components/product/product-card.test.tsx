@@ -1,12 +1,15 @@
 import { render, screen } from '@testing-library/react';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { ProductCard } from './product-card';
+
+vi.mock('@/app/cart/actions', () => ({ addToCart: vi.fn() }));
 
 const product = {
   name: 'Cloud Garden',
   slug: 'cloud-garden',
   priceCents: 8500,
   tone: 'peach',
+  variantId: 'variant-classic',
   image: {
     src: '/images/bouquets/bouquet-hydrangea-trio-peach-wrap.webp',
     alt: 'Pink, blue and white hydrangeas in peach wrapping',
