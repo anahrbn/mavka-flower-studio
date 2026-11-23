@@ -1,5 +1,7 @@
+import { Suspense } from 'react';
 import Link from 'next/link';
 import { Search, ShoppingCart } from 'lucide-react';
+import { getCartCount } from '@/lib/cart';
 import { Logo } from './logo';
 
 const navLinks = [
@@ -7,6 +9,35 @@ const navLinks = [
   { href: '/#florist', label: 'AI florist' },
   { href: '/#story', label: 'Our story' },
 ];
+
+function CartLink({ count }: { count?: number }) {
+  const label =
+    count === undefined
+      ? 'Cart'
+      : `Cart, ${count} ${count === 1 ? 'item' : 'items'}`;
+
+  return (
+    <Link
+      href="/cart"
+      aria-label={label}
+      className="text-deep-olive hover:text-olive relative flex size-11 items-center justify-center"
+    >
+      <ShoppingCart aria-hidden="true" className="size-6" strokeWidth={1.5} />
+      {count ? (
+        <span
+          aria-hidden="true"
+          className="bg-terracotta text-cream absolute top-0.5 right-0.5 flex h-5 min-w-5 items-center justify-center rounded-full px-1 text-xs font-medium"
+        >
+          {count}
+        </span>
+      ) : null}
+    </Link>
+  );
+}
+
+async function CartLinkWithCount() {
+  return <CartLink count={await getCartCount()} />;
+}
 
 export function SiteHeader() {
   return (
@@ -37,17 +68,9 @@ export function SiteHeader() {
           >
             <Search aria-hidden="true" className="size-5" strokeWidth={1.6} />
           </button>
-          <Link
-            href="/cart"
-            aria-label="Cart, 0 items"
-            className="text-deep-olive hover:text-olive flex size-11 items-center justify-center"
-          >
-            <ShoppingCart
-              aria-hidden="true"
-              className="size-6"
-              strokeWidth={1.5}
-            />
-          </Link>
+          <Suspense fallback={<CartLink />}>
+            <CartLinkWithCount />
+          </Suspense>
         </div>
       </div>
     </header>
