@@ -1,7 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { useActionState, useState } from 'react';
+import { addToCart } from '@/app/cart/actions';
 import { QuantityStepper } from '@/components/product/quantity-stepper';
+import { Button } from '@/components/ui/button';
 import type { BouquetSize } from '@/generated/prisma/enums';
 import { formatPrice } from '@/lib/format';
 
@@ -25,6 +27,7 @@ type ProductOptionsProps = {
 export function ProductOptions({ variants }: ProductOptionsProps) {
   const [selected, setSelected] = useState(variants[0]);
   const [quantity, setQuantity] = useState(1);
+  const [state, formAction, isPending] = useActionState(addToCart, null);
 
   if (!selected) return null;
 
@@ -61,6 +64,17 @@ export function ProductOptions({ variants }: ProductOptionsProps) {
         </p>
         <QuantityStepper value={quantity} onChange={setQuantity} />
       </div>
+
+      <form action={formAction} className="mt-8">
+        <input type="hidden" name="variantId" value={selected.id} />
+        <input type="hidden" name="quantity" value={quantity} />
+        <Button type="submit" size="lg" className="w-full sm:w-auto">
+          {isPending ? 'Adding…' : 'Add to cart'}
+        </Button>
+        <p role="status" className="mt-3 min-h-6">
+          {state?.message}
+        </p>
+      </form>
     </div>
   );
 }
